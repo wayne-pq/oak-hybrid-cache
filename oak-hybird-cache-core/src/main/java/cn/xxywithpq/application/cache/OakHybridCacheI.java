@@ -1,5 +1,7 @@
 package cn.xxywithpq.application.cache;
 
+import org.springframework.lang.Nullable;
+
 /**
  * 统一对外接口
  *
@@ -13,7 +15,7 @@ public interface OakHybridCacheI {
      * @param key   键
      * @param value 值
      */
-    void set(String key, Object value);
+    void put(Object key, @Nullable Object value);
 
     /**
      * 获取缓存数据
@@ -21,5 +23,7 @@ public interface OakHybridCacheI {
      * @param key   键
      * @param value 值
      */
-    void get(String key, Object value);
+    <T> T get(Object key, @Nullable Class<T> type);
+
+
 }

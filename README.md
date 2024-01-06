@@ -11,8 +11,8 @@ reduce database access pressure while ensuring data consistency (weak consistenc
 
 ## 特性(Features)
 
-- 项目基于 [alibaba/COLA V4](https://github.com/alibaba/COLA) 应用架构。(project based
-  on [alibaba/COLA V4] (https://github.com/alibaba/COLA) application architecture.)
+- 项目参照 [alibaba/COLA V4](https://github.com/alibaba/COLA) 应用架构。(project
+  reference [alibaba/COLA V4] (https://github.com/alibaba/COLA) application architecture.)
 - 在集群环境下, 为了应对流量洪峰, 以本地缓存为主, 分布式缓存为辅, 本地缓存与分布式缓存相结合。(In a cluster environment,
   to cope with traffic peaks, local cache is the primary component, and distributed cache is the secondary component.
   Local cache and distributed cache are combined.)
