@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
 import java.time.Duration;
+import java.util.ArrayList;
 
 /**
  * @author qian.pan on 2024/1/17.
@@ -34,6 +35,28 @@ public class CaffeineCacheTest {
 
         log.info(cache.stats().toString());
         log.info(stopWatch.prettyPrint());
+
+
+    }
+
+    @Test
+    public void softValuesTest() {
+        Cache<String, Object> cache = Caffeine.newBuilder()
+                .softValues()
+                .expireAfterWrite(Duration.ofMillis(60000))
+                .build();
+
+        int i = 0;
+
+        while (true) {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add(i);
+            if (cache.estimatedSize() < 1000) {
+                System.out.println("size" + cache.estimatedSize());
+            }
+            cache.put(String.valueOf(i), objects);
+            i++;
+        }
 
 
     }

@@ -11,12 +11,12 @@ public class OakHybridCacheImpl implements OakHybridCacheI {
     private CacheDomainService cacheDomainService;
 
     @Override
-    public void put(Object key, Object value) {
+    public void put(String key, Object value) {
         cacheDomainService.put(key, value);
     }
 
     @Override
-    public <T> T get(Object key, Class<T> type) {
+    public <T> T get(String key, Class<T> type) {
         return cacheDomainService.get(key, type);
     }
 }

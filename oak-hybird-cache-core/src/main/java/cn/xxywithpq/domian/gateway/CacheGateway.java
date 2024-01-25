@@ -1,7 +1,8 @@
 package cn.xxywithpq.domian.gateway;
 
 
-import cn.xxywithpq.infrastructure.cache.Cache;
+import cn.xxywithpq.domian.cache.LocalCache;
+import cn.xxywithpq.domian.cache.enums.CacheEnum;
 
 /**
  * cache gateway
@@ -9,5 +10,5 @@ import cn.xxywithpq.infrastructure.cache.Cache;
  * @version 1.0
  */
 public interface CacheGateway {
-    Cache getCache(String name);
+    LocalCache getLocalCache(CacheEnum cacheEnum);
 }

@@ -1,5 +1,8 @@
 package cn.xxywithpq.domian.cache;
 
+import cn.xxywithpq.domian.cache.enums.CacheEnum;
+import cn.xxywithpq.domian.gateway.CacheGateway;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,12 +10,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CacheDomainService {
-    public void put(Object key, Object value) {
+    @Resource
+    private CacheGateway cacheGateway;
 
+    public void put(String key, Object value) {
+        cacheGateway.getLocalCache(CacheEnum.CAFFEINE).put(key, value);
     }
 
-    public <T> T get(Object key, Class<T> type) {
-        return null;
+    public <T> T get(String key, Class<T> type) {
+        return cacheGateway.getLocalCache(CacheEnum.CAFFEINE).get(key, type);
     }
 
 }

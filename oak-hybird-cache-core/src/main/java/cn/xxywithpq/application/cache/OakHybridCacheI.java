@@ -15,7 +15,7 @@ public interface OakHybridCacheI {
      * @param key   键
      * @param value 值
      */
-    void put(Object key, @Nullable Object value);
+    void put(String key, @Nullable Object value);
 
     /**
      * 获取缓存数据
@@ -23,7 +23,7 @@ public interface OakHybridCacheI {
      * @param key   键
      * @param value 值
      */
-    <T> T get(Object key, @Nullable Class<T> type);
+    <T> T get(String key, @Nullable Class<T> type);
 
 
 }

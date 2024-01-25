@@ -3,15 +3,15 @@
 // (powered by FernFlower decompiler)
 //
 
-package cn.xxywithpq.infrastructure.cache;
+package cn.xxywithpq.domian.cache;
 
 import org.springframework.lang.Nullable;
 
 public interface Cache {
-    String getName();
+    String getCode();
 
-    <T> T get(Object key, @Nullable Class<T> type);
+    <T> T get(String key, @Nullable Class<T> type);
 
-    void put(Object key, @Nullable Object value);
+    void put(String key, @Nullable Object value);
 
 }
