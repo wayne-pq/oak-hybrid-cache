@@ -3,9 +3,11 @@ package cn.xxywithpq.application.cache;
 import cn.xxywithpq.domian.cache.CacheDomainService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-public class OakHybridCacheImpl implements OakHybridCacheI {
+@Service
+public class OakHybridCacheServiceImpl implements OakHybridCacheServiceI {
 
     @Resource
     private CacheDomainService cacheDomainService;

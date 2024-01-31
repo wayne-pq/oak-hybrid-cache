@@ -7,7 +7,7 @@ import org.springframework.lang.Nullable;
  *
  * @Author ：wayne
  */
-public interface OakHybridCacheI {
+public interface OakHybridCacheServiceI {
 
     /**
      * 设置缓存数据
