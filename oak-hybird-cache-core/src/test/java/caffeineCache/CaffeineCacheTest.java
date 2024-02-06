@@ -40,25 +40,32 @@ public class CaffeineCacheTest {
     }
 
     @Test
-    public void softValuesTest() {
-        Cache<String, Object> cache = Caffeine.newBuilder()
-                .softValues()
-                .expireAfterWrite(Duration.ofMillis(60000))
-                .build();
+    public void softValuesTest() throws InterruptedException {
+        Thread thread = new Thread(() -> {
+            log.info("Thread start.");
+            Cache<String, Object> cache = Caffeine.newBuilder()
+                    .softValues()
+                    .expireAfterWrite(Duration.ofMillis(60000))
+                    .build();
 
-        int i = 0;
-
-        while (true) {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add(i);
-            if (cache.estimatedSize() < 1000) {
-                System.out.println("size" + cache.estimatedSize());
+            try {
+                int i = 0;
+                while (!Thread.interrupted()) {
+                    ArrayList<Object> objects = new ArrayList<>();
+                    objects.add(i);
+                    if (cache.estimatedSize() < 1000) {
+                        System.out.println("size" + cache.estimatedSize());
+                    }
+                    cache.put(String.valueOf(i), objects);
+                    i++;
+                }
+            } finally {
+                log.info("Thread stopped.");
             }
-            cache.put(String.valueOf(i), objects);
-            i++;
-        }
-
-
+        });
+        thread.start();
+        Thread.sleep(10000);
+        thread.interrupt();
     }
 
     private Object createIfNotExist(Object key) {
