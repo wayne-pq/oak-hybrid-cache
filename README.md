@@ -33,6 +33,7 @@ reduce database access pressure while ensuring data consistency (weak consistenc
 @Resource
 private OakHybridCacheServiceI oakHybridCacheService;
 ......
+        ......
 //put cache
         oakHybridCacheService.
 
