@@ -24,5 +24,21 @@ reduce database access pressure while ensuring data consistency (weak consistenc
 
 ## 使用要求(Requirements)
 
+- JDK 21+
+- Spring Boot 2.6.3+
 ## 用法(How to use)
 
+```java
+
+@Resource
+private OakHybridCacheServiceI oakHybridCacheService;
+......
+//put cache
+        oakHybridCacheService.
+
+put(key, value);
+
+//get cache
+String cacheValue = oakHybridCacheService.get(key, String.class);
+
+```
