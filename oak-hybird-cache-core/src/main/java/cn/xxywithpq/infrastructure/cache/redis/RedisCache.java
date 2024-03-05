@@ -1,6 +1,6 @@
 package cn.xxywithpq.infrastructure.cache.redis;
 
-import cn.xxywithpq.domian.cache.LocalCache;
+import cn.xxywithpq.domian.cache.DistributedCache;
 import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisOperations;
@@ -12,7 +12,7 @@ import static cn.xxywithpq.domian.cache.enums.CacheEnum.REDIS;
  * @author qian.pan on 2024/1/18.
  */
 @Component
-public class RedisCache implements LocalCache {
+public class RedisCache implements DistributedCache {
     @Resource
     private RedisOperations<String, String> operations;
 

@@ -18,12 +18,12 @@ package cn.xxywithpq.infrastructure.cache.caffeine;
 
 
 import cn.xxywithpq.domian.cache.LocalCache;
-import cn.xxywithpq.infrastructure.cache.CacheManager;
+import cn.xxywithpq.infrastructure.cache.LocalCacheManager;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CaffeineCacheManager implements CacheManager {
+public class CaffeineCacheManager implements LocalCacheManager {
 
     @Resource
     private CaffeineCache caffeineCache;

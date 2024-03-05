@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 /**
  * @author qian.pan on 2024/1/17.
  */
 @SpringBootTest(classes = Application.class)
+@TestPropertySource(locations = "classpath:application.yml")
 public class OakHybridCacheTest {
 
     Logger log = LoggerFactory.getLogger(OakHybridCacheTest.class);

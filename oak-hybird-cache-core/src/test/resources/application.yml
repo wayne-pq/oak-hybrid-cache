@@ -1,0 +1,6 @@
+spring:
+  data:
+    redis:
+      password: redis password
+      cluster:
+        nodes: 'redis nodes'

@@ -1,6 +1,7 @@
 package cn.xxywithpq.domian.gateway;
 
 
+import cn.xxywithpq.domian.cache.DistributedCache;
 import cn.xxywithpq.domian.cache.LocalCache;
 import cn.xxywithpq.domian.cache.enums.CacheEnum;
 
@@ -11,4 +12,6 @@ import cn.xxywithpq.domian.cache.enums.CacheEnum;
  */
 public interface CacheGateway {
     LocalCache getLocalCache(CacheEnum cacheEnum);
+
+    DistributedCache getDistributedCache(CacheEnum cacheEnum);
 }

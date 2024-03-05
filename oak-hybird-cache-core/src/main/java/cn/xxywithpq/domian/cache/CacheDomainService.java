@@ -15,10 +15,15 @@ public class CacheDomainService {
 
     public void put(String key, Object value) {
         cacheGateway.getLocalCache(CacheEnum.CAFFEINE).put(key, value);
+        cacheGateway.getDistributedCache(CacheEnum.REDIS).put(key, value);
     }
 
     public <T> T get(String key, Class<T> type) {
-        return cacheGateway.getLocalCache(CacheEnum.CAFFEINE).get(key, type);
+        T t = cacheGateway.getLocalCache(CacheEnum.CAFFEINE).get(key, type);
+        if (t == null) {
+            t = cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+        }
+        return t;
     }
 
 }

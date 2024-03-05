@@ -17,19 +17,19 @@
 package cn.xxywithpq.infrastructure.cache.redis;
 
 
-import cn.xxywithpq.domian.cache.LocalCache;
-import cn.xxywithpq.infrastructure.cache.CacheManager;
+import cn.xxywithpq.domian.cache.DistributedCache;
+import cn.xxywithpq.infrastructure.cache.DistributedCacheManager;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RedisCacheManager implements CacheManager {
+public class RedisCacheManager implements DistributedCacheManager {
 
     @Resource
     private RedisCache redisCache;
 
     @Override
-    public LocalCache getLocalCache() {
+    public DistributedCache getDistributedCache() {
         return redisCache;
     }
 }

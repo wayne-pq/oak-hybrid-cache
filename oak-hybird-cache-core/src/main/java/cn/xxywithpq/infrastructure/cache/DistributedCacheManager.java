@@ -1,7 +1,7 @@
 
 package cn.xxywithpq.infrastructure.cache;
 
-import cn.xxywithpq.domian.cache.LocalCache;
+import cn.xxywithpq.domian.cache.DistributedCache;
 
 /**
  * 缓存管理器接口
@@ -12,6 +12,6 @@ public interface DistributedCacheManager extends CacheManager {
      *
      * @return 对应类型的缓存对象
      */
-    LocalCache getDistributedCache();
+    DistributedCache getDistributedCache();
 
 }
