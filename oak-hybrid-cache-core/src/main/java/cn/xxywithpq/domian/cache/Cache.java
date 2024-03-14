@@ -5,13 +5,11 @@
 
 package cn.xxywithpq.domian.cache;
 
-import org.springframework.lang.Nullable;
-
 public interface Cache {
     String getCode();
 
-    <T> T get(String key, @Nullable Class<T> type);
+    <T> T get(String key, Class<T> type);
 
-    void put(String key, @Nullable Object value);
+    void put(String key, Object value);
 
 }

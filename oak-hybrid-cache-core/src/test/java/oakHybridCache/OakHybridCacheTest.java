@@ -2,6 +2,7 @@ package oakHybridCache;
 
 import cn.xxywithpq.Application;
 import cn.xxywithpq.application.cache.OakHybridCacheServiceI;
+import com.alibaba.cola.exception.BizException;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,29 @@ public class OakHybridCacheTest {
         oakHybridCacheService.put(key, value);
         String cacheValue = oakHybridCacheService.get(key, String.class);
         Assertions.assertEquals(value, cacheValue);
+    }
+
+    @Test
+    public void keyBlankTest() {
+        final String exceptionMsg = "key不能为空";
+        BizException putException = Assertions.assertThrows(
+                BizException.class,
+                () -> {
+                    String key = "";
+                    String value = "test";
+                    oakHybridCacheService.put(key, value);
+                }
+        );
+        Assertions.assertEquals(exceptionMsg, putException.getMessage());
+
+        BizException getException = Assertions.assertThrows(
+                BizException.class,
+                () -> {
+                    String key = "";
+                    oakHybridCacheService.get(key, String.class);
+                }
+        );
+        Assertions.assertEquals(exceptionMsg, getException.getMessage());
     }
 
 

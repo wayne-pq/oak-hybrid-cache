@@ -31,6 +31,7 @@ dependencies {
     implementation("org.projectlombok:lombok:$lombok_version")
     implementation("com.github.ben-manes.caffeine:caffeine:$caffeine_version")
     implementation("com.alibaba.fastjson2:fastjson2:$fastjson2_version")
+    implementation("com.alibaba.cola:cola-component-exception:4.3.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor ("org.projectlombok:lombok:$lombok_version")
 }
