@@ -7,6 +7,8 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 import static cn.xxywithpq.domian.cache.enums.CacheEnum.REDIS;
 
 /**
@@ -14,6 +16,7 @@ import static cn.xxywithpq.domian.cache.enums.CacheEnum.REDIS;
  */
 @Component
 public class RedisCache extends AbstractCache implements DistributedCache {
+    public static final Long EXPIRE_TIME = 10L;
     @Resource
     private RedisOperations<String, String> operations;
 
@@ -33,6 +36,6 @@ public class RedisCache extends AbstractCache implements DistributedCache {
 
     @Override
     public void doPut(String key, Object value) {
-        operations.opsForValue().set(key, JSON.toJSONString(value));
+        operations.opsForValue().set(key, JSON.toJSONString(value), EXPIRE_TIME, TimeUnit.SECONDS);
     }
 }

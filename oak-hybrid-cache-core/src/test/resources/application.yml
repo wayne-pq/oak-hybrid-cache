@@ -1,6 +1,6 @@
 spring:
   data:
     redis:
-      password: 5wVKRPgWfhHpehPgoW
+      password: xxxx
       cluster:
-        nodes: '10.0.17.15:16379,10.0.17.15:16479,10.0.17.15:16579'
+        nodes: 'xxxx:xxxx,xxxx:xxxx,xxxx:xxxx'
