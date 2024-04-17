@@ -41,3 +41,5 @@ oakHybridCacheService.put(key, value);
 String cacheValue = oakHybridCacheService.get(key, String.class);
 
 ```
+
+## Shutouts

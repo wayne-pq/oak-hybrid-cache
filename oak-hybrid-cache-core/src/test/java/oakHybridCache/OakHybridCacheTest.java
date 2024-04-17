@@ -29,6 +29,9 @@ public class OakHybridCacheTest {
     private OakHybridCacheServiceI oakHybridCacheService;
 
 
+    /**
+     * 基础测试
+     */
     @Test
     public void basicTest() {
         String key = "test";
@@ -38,6 +41,9 @@ public class OakHybridCacheTest {
         Assertions.assertEquals(value, cacheValue);
     }
 
+    /**
+     * key不能为空
+     */
     @Test
     public void keyBlankTest() {
         final String exceptionMsg = "key不能为空";
@@ -61,6 +67,9 @@ public class OakHybridCacheTest {
         Assertions.assertEquals(exceptionMsg, getException.getMessage());
     }
 
+    /**
+     * 过期功能测试
+     */
     @Test
     public void expireTimeTest() throws InterruptedException {
         String key = "expireTimeTest";

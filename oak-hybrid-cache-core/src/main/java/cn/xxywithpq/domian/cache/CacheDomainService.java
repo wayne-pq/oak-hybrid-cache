@@ -14,16 +14,35 @@ public class CacheDomainService {
     private CacheGateway cacheGateway;
 
     public void put(String key, Object value) {
-        cacheGateway.getLocalCache(CacheEnum.CAFFEINE).put(key, value);
-        cacheGateway.getDistributedCache(CacheEnum.REDIS).put(key, value);
-    }
-
-    public <T> T get(String key, Class<T> type) {
-        T t = cacheGateway.getLocalCache(CacheEnum.CAFFEINE).get(key, type);
-        if (t == null) {
-            t = cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+        synchronized (this) {
+            cacheGateway.getLocalCache(CacheEnum.CAFFEINE).put(key, value);
+            cacheGateway.getDistributedCache(CacheEnum.REDIS).put(key, value);
         }
-        return t;
     }
 
+    /**
+     * 获取缓存:
+     * 优先读取本地缓存，本地缓存无效或不存在时再读取远程缓存；
+     * 更新本地缓存或远程缓存时，同一时刻仅允许一个线程操作。
+     *
+     * @param key
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public <T> T get(String key, Class<T> type) {
+        T t = getLatestLocalCache(key, type);
+        if (t != null) {
+            return t;
+        }
+        return getLatestDistributedCache(key, type);
+    }
+
+    private <T> T getLatestDistributedCache(String key, Class<T> type) {
+        return cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+    }
+
+    private <T> T getLatestLocalCache(String key, Class<T> type) {
+        return cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+    }
 }
