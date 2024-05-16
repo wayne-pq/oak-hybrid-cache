@@ -1,11 +1,13 @@
 package cn.xxywithpq.infrastructure.cache.caffeine;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
 import cn.xxywithpq.domian.cache.AbstractCache;
 import cn.xxywithpq.domian.cache.LocalCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.Objects;
 
 import static cn.xxywithpq.domian.cache.enums.CacheEnum.CAFFEINE;
 
@@ -25,12 +27,15 @@ public class CaffeineCache extends AbstractCache implements LocalCache {
     }
 
     @Override
-    public <T> T doGet(String key, Class<T> type) {
-        Object object = caffeineCache.getIfPresent(key);
-        if (object != null) {
-            return (T) object;
+    public <T> OakCache<T> doGet(String key, Class<T> type) {
+        OakCache<T> oakCache = OakCache.newInstance();
+        Object value = caffeineCache.getIfPresent(key);
+        if (!Objects.isNull(value)) {
+            if (type.isInstance(value)) {
+                return oakCache.with(type.cast(value));
+            }
         }
-        return null;
+        return oakCache;
     }
 
     @Override

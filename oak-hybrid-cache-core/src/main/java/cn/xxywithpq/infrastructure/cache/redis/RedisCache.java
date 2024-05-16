@@ -1,5 +1,6 @@
 package cn.xxywithpq.infrastructure.cache.redis;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
 import cn.xxywithpq.domian.cache.AbstractCache;
 import cn.xxywithpq.domian.cache.DistributedCache;
 import com.alibaba.fastjson2.JSON;
@@ -26,12 +27,15 @@ public class RedisCache extends AbstractCache implements DistributedCache {
     }
 
     @Override
-    public <T> T doGet(String key, Class<T> type) {
+    public <T> OakCache<T> doGet(String key, Class<T> type) {
+        OakCache<T> oakCache = OakCache.newInstance();
         String value = operations.opsForValue().get(key);
         if (value != null) {
-            return JSON.parseObject(value, type);
+            if (type.isInstance(value)) {
+                return oakCache.with(JSON.parseObject(value, type));
+            }
         }
-        return null;
+        return oakCache;
     }
 
     @Override

@@ -5,6 +5,7 @@
 
 package cn.xxywithpq.domian.cache;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
 import com.alibaba.cola.exception.ExceptionFactory;
 import org.springframework.util.StringUtils;
 
@@ -14,12 +15,12 @@ public abstract class AbstractCache implements Cache {
 
     private final String PREFIX = "oakHybridCache:";
 
-    protected abstract <T> T doGet(String key, Class<T> type);
+    protected abstract <T> OakCache<T> doGet(String key, Class<T> type);
 
     protected abstract void doPut(String key, Object value);
 
     @Override
-    public <T> T get(String key, Class<T> type) {
+    public <T> OakCache<T> get(String key, Class<T> type) {
         keyNonNull(key);
         key = buildPrefix(key);
         return doGet(key, type);

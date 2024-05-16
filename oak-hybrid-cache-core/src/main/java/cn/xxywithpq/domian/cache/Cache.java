@@ -5,10 +5,12 @@
 
 package cn.xxywithpq.domian.cache;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
+
 public interface Cache {
     String getCode();
 
-    <T> T get(String key, Class<T> type);
+    <T> OakCache<T> get(String key, Class<T> type);
 
     void put(String key, Object value);
 

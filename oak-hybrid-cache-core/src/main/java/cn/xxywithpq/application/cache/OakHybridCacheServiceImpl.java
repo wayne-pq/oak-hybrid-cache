@@ -1,5 +1,6 @@
 package cn.xxywithpq.application.cache;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
 import cn.xxywithpq.domian.cache.CacheDomainService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class OakHybridCacheServiceImpl implements OakHybridCacheServiceI {
     }
 
     @Override
-    public <T> T get(String key, Class<T> type) {
+    public <T> OakCache<T> get(String key, Class<T> type) {
         return cacheDomainService.get(key, type);
     }
 }

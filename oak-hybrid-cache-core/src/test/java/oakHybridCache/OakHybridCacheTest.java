@@ -2,6 +2,7 @@ package oakHybridCache;
 
 import cn.xxywithpq.Application;
 import cn.xxywithpq.application.cache.OakHybridCacheServiceI;
+import cn.xxywithpq.application.cache.dto.OakCache;
 import com.alibaba.cola.exception.BizException;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -37,8 +38,8 @@ public class OakHybridCacheTest {
         String key = "test";
         String value = "test";
         oakHybridCacheService.put(key, value);
-        String cacheValue = oakHybridCacheService.get(key, String.class);
-        Assertions.assertEquals(value, cacheValue);
+        OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
+        Assertions.assertEquals(value, stringOakCache.getItem());
     }
 
     /**
@@ -75,12 +76,12 @@ public class OakHybridCacheTest {
         String key = "expireTimeTest";
         String value = "expireTimeTest";
         oakHybridCacheService.put(key, value);
-        String cacheValue = oakHybridCacheService.get(key, String.class);
-        Assertions.assertEquals(value, cacheValue);
+        OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
+        Assertions.assertEquals(value, stringOakCache.getItem());
 
         Thread.sleep(Duration.of(EXPIRE_TIME, ChronoUnit.SECONDS));
-        cacheValue = oakHybridCacheService.get(key, String.class);
-        Assertions.assertNull(cacheValue);
+        stringOakCache = oakHybridCacheService.get(key, String.class);
+        Assertions.assertNull(stringOakCache.getItem());
     }
 
 

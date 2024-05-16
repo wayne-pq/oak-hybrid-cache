@@ -1,9 +1,13 @@
 package cn.xxywithpq.domian.cache;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
 import cn.xxywithpq.domian.cache.enums.CacheEnum;
 import cn.xxywithpq.domian.gateway.CacheGateway;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author qian.pan on 2023/12/22.
@@ -12,6 +16,8 @@ import org.springframework.stereotype.Component;
 public class CacheDomainService {
     @Resource
     private CacheGateway cacheGateway;
+
+    private final Lock localCacleUpdatelock = new ReentrantLock();
 
     public void put(String key, Object value) {
         synchronized (this) {
@@ -30,19 +36,23 @@ public class CacheDomainService {
      * @param <T>
      * @return
      */
-    public <T> T get(String key, Class<T> type) {
-        T t = getLatestLocalCache(key, type);
+    public <T> OakCache<T> get(String key, Class<T> type) {
+        OakCache<T> t = getLatestLocalCache(key, type);
         if (t != null) {
             return t;
         }
         return getLatestDistributedCache(key, type);
     }
 
-    private <T> T getLatestDistributedCache(String key, Class<T> type) {
+    private <T> OakCache<T> getLatestDistributedCache(String key, Class<T> type) {
         return cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+        //如果分布式缓存为空, 重新获取，为了防止缓存击穿，需要加分布式锁
+//        if (Objects.isNull(cache)) {
+//            cache = tryToUpdateDistributedCache();
+//        }
     }
 
-    private <T> T getLatestLocalCache(String key, Class<T> type) {
+    private <T> OakCache<T> getLatestLocalCache(String key, Class<T> type) {
         return cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
     }
 }

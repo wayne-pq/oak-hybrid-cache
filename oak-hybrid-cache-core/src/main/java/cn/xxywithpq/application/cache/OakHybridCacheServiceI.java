@@ -1,5 +1,7 @@
 package cn.xxywithpq.application.cache;
 
+import cn.xxywithpq.application.cache.dto.OakCache;
+
 /**
  * 统一对外接口
  *
@@ -21,7 +23,7 @@ public interface OakHybridCacheServiceI {
      * @param key   键
      * @param value 值
      */
-    <T> T get(String key, Class<T> type);
+    <T> OakCache<T> get(String key, Class<T> type);
 
 
 }
