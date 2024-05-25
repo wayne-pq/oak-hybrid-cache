@@ -17,7 +17,7 @@ public class CacheDomainService {
     @Resource
     private CacheGateway cacheGateway;
 
-    private final Lock localCacleUpdatelock = new ReentrantLock();
+    private final Lock localCacheUpdatelock = new ReentrantLock();
 
     public void put(String key, Object value) {
         synchronized (this) {
@@ -37,22 +37,34 @@ public class CacheDomainService {
      * @return
      */
     public <T> OakCache<T> get(String key, Class<T> type) {
-        OakCache<T> t = getLatestLocalCache(key, type);
-        if (t != null) {
-            return t;
+        OakCache<T> cache = getLatestLocalCache(key, type);
+        if (cache.isExist()) {
+            return cache;
         }
         return getLatestDistributedCache(key, type);
     }
 
     private <T> OakCache<T> getLatestDistributedCache(String key, Class<T> type) {
-        return cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+        OakCache<T> oakCache = cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
         //如果分布式缓存为空, 重新获取，为了防止缓存击穿，需要加分布式锁
-//        if (Objects.isNull(cache)) {
-//            cache = tryToUpdateDistributedCache();
-//        }
+        if (oakCache.isEmpty()) {
+            //TODO  更新远程缓存
+        }
+
+        if (!oakCache.isEmpty()) {
+            if (localCacheUpdatelock.tryLock()) {
+                try {
+                    cacheGateway.getLocalCache(CacheEnum.CAFFEINE).put(key, oakCache);
+                } finally {
+                    localCacheUpdatelock.unlock();
+                }
+            }
+        }
+
+        return oakCache;
     }
 
     private <T> OakCache<T> getLatestLocalCache(String key, Class<T> type) {
-        return cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
+        return cacheGateway.getLocalCache(CacheEnum.CAFFEINE).get(key, type);
     }
 }

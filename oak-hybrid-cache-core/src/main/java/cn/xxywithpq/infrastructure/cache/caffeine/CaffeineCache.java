@@ -3,6 +3,9 @@ package cn.xxywithpq.infrastructure.cache.caffeine;
 import cn.xxywithpq.application.cache.dto.OakCache;
 import cn.xxywithpq.domian.cache.AbstractCache;
 import cn.xxywithpq.domian.cache.LocalCache;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +21,7 @@ import static cn.xxywithpq.domian.cache.enums.CacheEnum.CAFFEINE;
 public class CaffeineCache extends AbstractCache implements LocalCache {
     private final com.github.benmanes.caffeine.cache.Cache<String, Object> caffeineCache = Caffeine.newBuilder()
             .maximumSize(10_000)
-            .expireAfterWrite(Duration.ofMillis(1000))
+            .expireAfterWrite(Duration.ofMillis(2000))
             .recordStats().build();
 
     @Override
@@ -28,18 +31,23 @@ public class CaffeineCache extends AbstractCache implements LocalCache {
 
     @Override
     public <T> OakCache<T> doGet(String key, Class<T> type) {
-        OakCache<T> oakCache = OakCache.newInstance();
         Object value = caffeineCache.getIfPresent(key);
         if (!Objects.isNull(value)) {
-            if (type.isInstance(value)) {
-                return oakCache.with(type.cast(value));
-            }
+            OakCache<T> cache = JSONObject.parseObject(value.toString(), new TypeReference<>() {
+            });
+            cache.setLevel(CAFFEINE.getLevel());
+            return cache;
+
+//            return JSON.parseObject(JSON.toJSONString(value), OakCache.class);
+//            if (type.isInstance(value)) {
+//                return oakCache.with(type.cast(value), CAFFEINE.getLevel());
+//            }
         }
-        return oakCache;
+        return OakCache.newInstance();
     }
 
     @Override
     public void doPut(String key, Object value) {
-        caffeineCache.put(key, value);
+        caffeineCache.put(key, JSON.toJSONString(OakCache.newInstance().with(value)));
     }
 }

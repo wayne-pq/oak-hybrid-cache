@@ -3,6 +3,7 @@ package oakHybridCache;
 import cn.xxywithpq.Application;
 import cn.xxywithpq.application.cache.OakHybridCacheServiceI;
 import cn.xxywithpq.application.cache.dto.OakCache;
+import cn.xxywithpq.domian.cache.enums.CacheEnum;
 import com.alibaba.cola.exception.BizException;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +15,8 @@ import org.springframework.test.context.TestPropertySource;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static cn.xxywithpq.infrastructure.cache.redis.RedisCache.EXPIRE_TIME;
 
@@ -34,12 +37,31 @@ public class OakHybridCacheTest {
      * 基础测试
      */
     @Test
-    public void basicTest() {
+    public void basicTest() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
         String key = "test";
         String value = "test";
+        AtomicReference<Integer> firstCacheLevel = new AtomicReference<>();
+        AtomicReference<String> firstCacheValue = new AtomicReference<>();
+        new Thread(() -> {
+            while (true) {
+                OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
+                if (!stringOakCache.isEmpty()) {
+                    firstCacheLevel.set(stringOakCache.getLevel());
+                    firstCacheValue.set(stringOakCache.getItem());
+                    latch.countDown();
+                    break;
+                }
+            }
+        }).start();
         oakHybridCacheService.put(key, value);
+        latch.await();
+//        OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
+        Assertions.assertEquals(value, firstCacheValue.get());
+        Assertions.assertEquals(CacheEnum.CAFFEINE.getLevel(), firstCacheLevel.get());
+        Thread.sleep(1100);
         OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
-        Assertions.assertEquals(value, stringOakCache.getItem());
+        Assertions.assertEquals(CacheEnum.REDIS.getLevel(), stringOakCache.getLevel());
     }
 
     /**

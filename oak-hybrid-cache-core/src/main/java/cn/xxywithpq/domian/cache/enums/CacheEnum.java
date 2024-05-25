@@ -9,11 +9,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CacheEnum {
-    CAFFEINE("caffeine"),
+    CAFFEINE("caffeine", 1),
 
-    REDIS("redis");
+    REDIS("redis", 2);
 
 
     private final String code;
+    private final Integer level;
 
 }

@@ -4,10 +4,13 @@ import cn.xxywithpq.application.cache.dto.OakCache;
 import cn.xxywithpq.domian.cache.AbstractCache;
 import cn.xxywithpq.domian.cache.DistributedCache;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static cn.xxywithpq.domian.cache.enums.CacheEnum.REDIS;
@@ -28,18 +31,21 @@ public class RedisCache extends AbstractCache implements DistributedCache {
 
     @Override
     public <T> OakCache<T> doGet(String key, Class<T> type) {
-        OakCache<T> oakCache = OakCache.newInstance();
         String value = operations.opsForValue().get(key);
-        if (value != null) {
-            if (type.isInstance(value)) {
-                return oakCache.with(JSON.parseObject(value, type));
-            }
+        if (!Objects.isNull(value)) {
+            OakCache<T> cache = JSONObject.parseObject(value, new TypeReference<>() {
+            });
+            cache.setLevel(REDIS.getLevel());
+            return cache;
+//            if (type.isInstance(value)) {
+//                return oakCache.with(JSON.parseObject(value, type), REDIS.getLevel());
+//            }
         }
-        return oakCache;
+        return OakCache.newInstance();
     }
 
     @Override
     public void doPut(String key, Object value) {
-        operations.opsForValue().set(key, JSON.toJSONString(value), EXPIRE_TIME, TimeUnit.SECONDS);
+        operations.opsForValue().set(key, JSON.toJSONString(OakCache.newInstance().with(value)), EXPIRE_TIME, TimeUnit.SECONDS);
     }
 }
