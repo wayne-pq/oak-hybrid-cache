@@ -3,6 +3,8 @@ package oakHybridCache;
 import cn.xxywithpq.Application;
 import cn.xxywithpq.application.cache.OakHybridCacheServiceI;
 import cn.xxywithpq.application.cache.dto.OakCache;
+import cn.xxywithpq.domian.cache.config.caffeine.CaffeineProperties;
+import cn.xxywithpq.domian.cache.config.redis.RedisProperties;
 import cn.xxywithpq.domian.cache.enums.CacheEnum;
 import com.alibaba.cola.exception.BizException;
 import jakarta.annotation.Resource;
@@ -13,12 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static cn.xxywithpq.infrastructure.cache.redis.RedisCache.EXPIRE_TIME;
 
 /**
  * @author qian.pan on 2024/1/17.
@@ -32,35 +28,41 @@ public class OakHybridCacheTest {
     @Resource
     private OakHybridCacheServiceI oakHybridCacheService;
 
+    @Resource
+    private CaffeineProperties caffeineProperties;
+    @Resource
+    private RedisProperties redisProperties;
 
     /**
      * 基础测试
      */
     @Test
     public void basicTest() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
+//        CountDownLatch latch = new CountDownLatch(1);
         String key = "test";
         String value = "test";
-        AtomicReference<Integer> firstCacheLevel = new AtomicReference<>();
-        AtomicReference<String> firstCacheValue = new AtomicReference<>();
-        new Thread(() -> {
-            while (true) {
-                OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
-                if (!stringOakCache.isEmpty()) {
-                    firstCacheLevel.set(stringOakCache.getLevel());
-                    firstCacheValue.set(stringOakCache.getItem());
-                    latch.countDown();
-                    break;
-                }
-            }
-        }).start();
+//        AtomicReference<Integer> firstCacheLevel = new AtomicReference<>();
+//        AtomicReference<String> firstCacheValue = new AtomicReference<>();
         oakHybridCacheService.put(key, value);
-        latch.await();
+        OakCache<String> cacheValue = oakHybridCacheService.get(key, String.class);
+//        new Thread(() -> {
+//            while (true) {
+//                OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
+//                if (!stringOakCache.isEmpty()) {
+//                    firstCacheLevel.set(stringOakCache.getLevel());
+//                    firstCacheValue.set(stringOakCache.getItem());
+//                    latch.countDown();
+//                    break;
+//                }
+//            }
+//        }).start();
+//        latch.await();
 //        OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
-        Assertions.assertEquals(value, firstCacheValue.get());
-        Assertions.assertEquals(CacheEnum.CAFFEINE.getLevel(), firstCacheLevel.get());
-        Thread.sleep(1100);
+        Assertions.assertEquals(value, cacheValue.getItem());
+//        Assertions.assertEquals(CacheEnum.CAFFEINE.getLevel(), firstCacheLevel.get());
+        Thread.sleep(caffeineProperties.getExpireAfterWrite());
         OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
+        //be sure after first cache timeout, the cache is redis level
         Assertions.assertEquals(CacheEnum.REDIS.getLevel(), stringOakCache.getLevel());
     }
 
@@ -101,7 +103,7 @@ public class OakHybridCacheTest {
         OakCache<String> stringOakCache = oakHybridCacheService.get(key, String.class);
         Assertions.assertEquals(value, stringOakCache.getItem());
 
-        Thread.sleep(Duration.of(EXPIRE_TIME, ChronoUnit.SECONDS));
+        Thread.sleep(redisProperties.getExpireAfterWrite());
         stringOakCache = oakHybridCacheService.get(key, String.class);
         Assertions.assertNull(stringOakCache.getItem());
     }

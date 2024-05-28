@@ -4,3 +4,9 @@ spring:
       password: xxxx
       cluster:
         nodes: 'xxxx:xxxx,xxxx:xxxx,xxxx:xxxx'
+oak:
+  cache:
+    caffeine:
+      expire-after-write: 1s
+    redis:
+      expire-after-write: 10s
