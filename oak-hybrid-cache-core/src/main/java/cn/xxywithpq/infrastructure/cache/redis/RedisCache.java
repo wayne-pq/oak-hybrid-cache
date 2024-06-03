@@ -44,7 +44,7 @@ public class RedisCache extends AbstractCache implements DistributedCache {
 //                return oakCache.with(JSON.parseObject(value, type), REDIS.getLevel());
 //            }
         }
-        return OakCache.newInstance();
+        return null;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class CaffeineCache extends AbstractCache implements LocalCache, Initiali
 //                return oakCache.with(type.cast(value), CAFFEINE.getLevel());
 //            }
         }
-        return OakCache.newInstance();
+        return null;
     }
 
     @Override

@@ -4,6 +4,14 @@ spring:
       password: xxxx
       cluster:
         nodes: 'xxxx:xxxx,xxxx:xxxx,xxxx:xxxx'
+  output:
+    ansi:
+      enabled: always
+logging:
+  level:
+    root: debug
+  pattern:
+    console: "[%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}] [%thread] [%clr(%5p)] [%clr(%logger{36}){cyan}] - %msg%n"
 oak:
   cache:
     caffeine:

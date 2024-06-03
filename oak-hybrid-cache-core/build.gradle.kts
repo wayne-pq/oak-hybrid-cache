@@ -24,6 +24,7 @@ repositories {
 val lombok_version = "1.18.30"
 val caffeine_version = "3.1.8"
 val fastjson2_version = "2.0.44"
+val redisson_version = "3.31.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -32,6 +33,7 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine:$caffeine_version")
     implementation("com.alibaba.fastjson2:fastjson2:$fastjson2_version")
     implementation("com.alibaba.cola:cola-component-exception:4.3.2")
+    implementation("org.redisson:redisson-spring-boot-starter:$redisson_version")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor ("org.projectlombok:lombok:$lombok_version")
 }
