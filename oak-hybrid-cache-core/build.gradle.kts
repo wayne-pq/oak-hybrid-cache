@@ -36,7 +36,15 @@ dependencies {
     implementation("org.redisson:redisson-spring-boot-starter:$redisson_version")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor ("org.projectlombok:lombok:$lombok_version")
-}
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
+    implementation("mysql:mysql-connector-java:8.0.33")
+    implementation("com.google.guava:guava:33.2.1-jre")
+    implementation("org.apache.shardingsphere:shardingsphere-jdbc:5.5.0"){
+        exclude(group = "org.apache.shardingsphere", module = "shardingsphere-test-util")
+    }
+    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.8")
+    implementation ("cn.hutool:hutool-all:5.8.16")
+    }
 
 tasks.test {
     useJUnitPlatform()

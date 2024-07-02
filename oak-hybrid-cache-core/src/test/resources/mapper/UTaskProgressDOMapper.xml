@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oakHybridCacheWithDBData.mapper.UTaskProgressDOMapper">
+    <resultMap id="BaseResultMap" type="oakHybridCacheWithDBData.bean.UTaskProgressDO">
+        <!--@mbg.generated-->
+        <!--@Table u_task_progress_2024_0-->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="task_code" jdbcType="VARCHAR" property="taskCode"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="task_complete_status" jdbcType="TINYINT" property="taskCompleteStatus"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id,
+        version,
+        task_code,
+        user_id,
+        task_complete_status,
+        create_by,
+        update_by,
+        create_time,
+        update_time,
+        is_deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from u_task_progress_2024_0
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!--@mbg.generated-->
+        delete
+        from u_task_progress_2024_0
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO u_task_progress (version, task_code, user_id, task_complete_status, create_by,
+                                     update_by, create_time, update_time, is_deleted) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.version,jdbcType=INTEGER},
+             #{item.taskCode,jdbcType=VARCHAR},
+             #{item.userId,jdbcType=BIGINT},
+             #{item.taskCompleteStatus,jdbcType=TINYINT},
+             #{item.createBy,jdbcType=VARCHAR},
+             #{item.updateBy,jdbcType=VARCHAR},
+             #{item.createTime,jdbcType=TIMESTAMP},
+             #{item.updateTime,jdbcType=TIMESTAMP},
+             #{item.isDeleted,jdbcType=TINYINT})
+        </foreach>
+    </insert>
+
+
+    <insert id="insert" parameterType="oakHybridCacheWithDBData.bean.UTaskProgressDO">
+        <!--@mbg.generated-->
+        insert into u_task_progress (version, task_code,
+                                     user_id, task_complete_status, create_by,
+                                     update_by, create_time, update_time,
+                                     is_deleted)
+        values (#{version,jdbcType=INTEGER}, #{taskCode,jdbcType=VARCHAR},
+                #{userId,jdbcType=BIGINT}, #{taskCompleteStatus,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR},
+                #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+                #{isDeleted,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="oakHybridCacheWithDBData.bean.UTaskProgressDO">
+        <!--@mbg.generated-->
+        insert into u_task_progress_2024_0
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="taskCode != null">
+                task_code,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="taskCompleteStatus != null">
+                task_complete_status,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="taskCode != null">
+                #{taskCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="taskCompleteStatus != null">
+                #{taskCompleteStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="oakHybridCacheWithDBData.bean.UTaskProgressDO">
+        <!--@mbg.generated-->
+        update u_task_progress_2024_0
+        <set>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+            <if test="taskCode != null">
+                task_code = #{taskCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="taskCompleteStatus != null">
+                task_complete_status = #{taskCompleteStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="oakHybridCacheWithDBData.bean.UTaskProgressDO">
+        <!--@mbg.generated-->
+        update u_task_progress_2024_0
+        set version              = #{version,jdbcType=INTEGER},
+            task_code            = #{taskCode,jdbcType=VARCHAR},
+            user_id              = #{userId,jdbcType=BIGINT},
+            task_complete_status = #{taskCompleteStatus,jdbcType=TINYINT},
+            create_by            = #{createBy,jdbcType=VARCHAR},
+            update_by            = #{updateBy,jdbcType=VARCHAR},
+            create_time          = #{createTime,jdbcType=TIMESTAMP},
+            update_time          = #{updateTime,jdbcType=TIMESTAMP},
+            is_deleted           = #{isDeleted,jdbcType=TINYINT}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByUserId" resultType="java.lang.Integer">
+        select count(*) from u_task_progress where (user_id = 1)
+        or (user_id = 2 and create_time > '2023-01-01 00:00:00' and create_time &lt; '2023-03-01 00:00:00')
+    </select>
+</mapper>

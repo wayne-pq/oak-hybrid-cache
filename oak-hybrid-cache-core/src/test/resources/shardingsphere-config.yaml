@@ -1,0 +1,46 @@
+dataSources:
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://xxxx:13306/oak-hybrid-cache-01?useAffectedRows=true&useSSL=TRUE&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: xxxx
+    password: xxxx
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://xxxx:13306/oak-hybrid-cache-02?useAffectedRows=true&useSSL=TRUE&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: xxxx
+    password: xxxx
+rules:
+  - !SHARDING
+    tables:
+      u_task_progress:
+        actualDataNodes: ds_${0..1}.u_task_progress_${2024..2025}_${0..2}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: u-task-progress-db-alg
+        tableStrategy:
+          complex:
+            shardingColumns: user_id,create_time
+            shardingAlgorithmName: u-task-progress-table-alg
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+    shardingAlgorithms:
+      u-task-progress-db-alg:
+        type: CLASS_BASED
+        props:
+          strategy: standard
+          algorithmClassName: oakHybridCacheWithDBData.alg.UTaskProgressDBAlgorithm
+      u-task-progress-table-alg:
+        type: CLASS_BASED
+        props:
+          strategy: complex
+          algorithmClassName: oakHybridCacheWithDBData.alg.UTaskProgressTableAlgorithm
+          tableNum: 3
+    keyGenerators:
+      snowflake:
+        type: SNOWFLAKE
+props:
+  sql-show: true
