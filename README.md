@@ -42,4 +42,11 @@ String cacheValue = oakHybridCacheService.get(key, String.class);
 
 ```
 
+## 如何使用测试用例(How to use test case)
+
+1. 准备数据库环境，redis和mysql.
+2. 在mysql中执行脚本`oak-hybrid-cache-core/src/test/sql/oakHybridCacheWithDBData/init.sql`.
+3. 替换`application.yml`, `application-withdb.yml` 和 `shardingsphere-config.yaml`中的 `dataSources`
+   和 `spring.data.redis`.
+
 ## Shutouts
