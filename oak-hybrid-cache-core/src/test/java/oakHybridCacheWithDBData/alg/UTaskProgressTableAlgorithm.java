@@ -101,12 +101,12 @@ public class UTaskProgressTableAlgorithm implements ComplexKeysShardingAlgorithm
         return availableTarget;
     }
 
-    public Properties getProps() {
-        return this.props;
-    }
-
     public void setProps(Properties props) {
         this.props = props;
+    }
+
+    public Properties getProps() {
+        return this.props;
     }
 
     public void init(Properties props) {

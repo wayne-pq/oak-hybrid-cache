@@ -2,16 +2,24 @@ dataSources:
   ds_0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://xxxx:13306/oak-hybrid-cache-01?useAffectedRows=true&useSSL=TRUE&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-    username: xxxx
-    password: xxxx
+    jdbcUrl: jdbc:mysql://123.123.8.2:13306/oak-hybrid-cache-01?useAffectedRows=true&useSSL=TRUE&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: oak
+    password: rN2yT2sL1tD2jJ7v
   ds_1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://xxxx:13306/oak-hybrid-cache-02?useAffectedRows=true&useSSL=TRUE&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-    username: xxxx
-    password: xxxx
+    jdbcUrl: jdbc:mysql://123.123.8.2:13306/oak-hybrid-cache-02?useAffectedRows=true&useSSL=TRUE&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: oak
+    password: rN2yT2sL1tD2jJ7v
 rules:
+  - !BROADCAST
+    tables:
+      - u_task_detail
+  #  单表不允许join查询
+  #  - !SINGLE
+  #    tables:
+  #      # 加载指定单表
+  #      - ds_0.u_task_detail
   - !SHARDING
     tables:
       u_task_progress:
@@ -44,3 +52,10 @@ rules:
         type: SNOWFLAKE
 props:
   sql-show: true
+#开启联邦查询
+sqlFederation:
+  sqlFederationEnabled: true
+  allQueryUseSQLFederation: false
+  executionPlanCache:
+    initialCapacity: 2000
+    maximumSize: 65535

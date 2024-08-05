@@ -1,9 +1,9 @@
 spring:
   data:
     redis:
-      password: xxxx
-      cluster:
-        nodes: 'xxxx:xxxx,xxxx:xxxx,xxxx:xxxx'
+      host: '123.123.8.2'
+      port: 6379
+      password: cA8nC0lR9tG8sH0k
   output:
     ansi:
       enabled: always

@@ -1,6 +1,7 @@
 package oakHybridCacheWithDBData.mapper;
 
 import oakHybridCacheWithDBData.bean.UTaskProgressDO;
+import oakHybridCacheWithDBData.dto.UTaskProgressDetailDTO;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface UTaskProgressDOMapper {
     int insertBatch(List<UTaskProgressDO> record);
 
     int selectByUserId(Long userId);
+
+    UTaskProgressDetailDTO selectDetailByUserId(Long userId);
 }

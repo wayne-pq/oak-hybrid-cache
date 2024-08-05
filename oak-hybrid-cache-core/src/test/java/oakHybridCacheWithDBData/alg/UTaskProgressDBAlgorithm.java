@@ -19,8 +19,10 @@ import java.util.Properties;
  * @auth roykingw
  */
 public class UTaskProgressDBAlgorithm implements StandardShardingAlgorithm<Comparable<?>> {
-    Logger log = LoggerFactory.getLogger(UTaskProgressDBAlgorithm.class);
     private Properties props;
+
+    Logger log = LoggerFactory.getLogger(UTaskProgressDBAlgorithm.class);
+
 
     @Override
     public String doSharding(Collection<String> collection, PreciseShardingValue<Comparable<?>> preciseShardingValue) {
@@ -34,12 +36,12 @@ public class UTaskProgressDBAlgorithm implements StandardShardingAlgorithm<Compa
         return collection;
     }
 
-    public Properties getProps() {
-        return this.props;
-    }
-
     public void setProps(Properties props) {
         this.props = props;
+    }
+
+    public Properties getProps() {
+        return this.props;
     }
 
     public void init(Properties props) {

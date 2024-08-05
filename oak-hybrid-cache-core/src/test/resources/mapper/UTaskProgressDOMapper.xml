@@ -187,7 +187,13 @@
     </update>
 
     <select id="selectByUserId" resultType="java.lang.Integer">
-        select count(*) from u_task_progress where (user_id = 1)
-        or (user_id = 2 and create_time > '2023-01-01 00:00:00' and create_time &lt; '2023-03-01 00:00:00')
+        select count(*) from u_task_progress where user_id = 1
+    </select>
+
+    <select id="selectDetailByUserId" resultType="oakHybridCacheWithDBData.dto.UTaskProgressDetailDTO">
+        select a.task_code, b.task_name, a.user_id, a.task_complete_status
+        from u_task_progress a
+                 left join u_task_detail b on a.task_code = b.task_code
+        where user_id = 1
     </select>
 </mapper>

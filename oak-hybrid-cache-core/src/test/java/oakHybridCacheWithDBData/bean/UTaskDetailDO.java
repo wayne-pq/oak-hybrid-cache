@@ -5,18 +5,18 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @author qian.pan on 2024/6/25.
+ * @author qian.pan on 2024/7/4.
  */
 
 /**
- * 用户任务进度表
+ * 用户成长值任务详情表
  */
 @Data
-public class UTaskProgressDO {
+public class UTaskDetailDO {
     /**
      * 主键
      */
-    private String id;
+    private Long id;
 
     /**
      * 版本号
@@ -29,14 +29,9 @@ public class UTaskProgressDO {
     private String taskCode;
 
     /**
-     * 用户ID
+     * 任务名称
      */
-    private Long userId;
-
-    /**
-     * 任务完成状态，1:完成中，2:已完成，默认0
-     */
-    private Byte taskCompleteStatus;
+    private String taskName;
 
     /**
      * 创建人
@@ -59,7 +54,7 @@ public class UTaskProgressDO {
     private Date updateTime;
 
     /**
-     * 是否删除,默认0,1:删除
+     * 是否删除，默认0，1:是
      */
     private Byte isDeleted;
 

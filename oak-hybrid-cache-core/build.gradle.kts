@@ -36,6 +36,7 @@ dependencies {
     implementation("org.redisson:redisson-spring-boot-starter:$redisson_version")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor ("org.projectlombok:lombok:$lombok_version")
+    testAnnotationProcessor ("org.projectlombok:lombok:$lombok_version")
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("com.google.guava:guava:33.2.1-jre")
