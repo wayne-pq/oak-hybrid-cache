@@ -25,6 +25,7 @@ val lombok_version = "1.18.30"
 val caffeine_version = "3.1.8"
 val fastjson2_version = "2.0.44"
 val redisson_version = "3.31.0"
+val cosidVersion = "2.9.4"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -45,6 +46,9 @@ dependencies {
     }
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.8")
     implementation ("cn.hutool:hutool-all:5.8.16")
+    implementation("me.ahoo.cosid:cosid-jdbc:${cosidVersion}")
+    implementation("me.ahoo.cosid:cosid-spring-boot-starter:${cosidVersion}")
+
     }
 
 tasks.test {

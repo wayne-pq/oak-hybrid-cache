@@ -1,9 +1,13 @@
+server:
+  port: 8080
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
 spring:
+  application:
+    name: oak-hybrid-cache-test-with-db
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
@@ -15,11 +19,20 @@ spring:
   output:
     ansi:
       enabled: always
+cosid:
+  namespace: ${spring.application.name}
+  machine:
+    enabled: true # 可选，当需要使用雪花算法时，需要设置为 true
+    stable: false
+    distributor:
+      type: jdbc
+  snowflake:
+    enabled: true # 可选，当需要使用雪花算法时，需要设置为 true
 logging:
   level:
     root: info
   pattern:
-    console: "[%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}] [%thread] [%clr(%5p)] [%clr(%logger{36}){cyan}] - %msg%n"
+    console: "[%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}] [%thread] [%clr(%5p)] [%clr(%class{39}.%M\\(%line\\)){cyan}] - %msg%n"
 oak:
   cache:
     caffeine:

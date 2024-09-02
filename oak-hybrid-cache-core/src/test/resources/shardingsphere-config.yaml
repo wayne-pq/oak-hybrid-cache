@@ -16,10 +16,10 @@ rules:
     tables:
       - u_task_detail
   #  单表不允许join查询
-  #  - !SINGLE
-  #    tables:
-  #      # 加载指定单表
-  #      - ds_0.u_task_detail
+  - !SINGLE
+    tables:
+      # 加载指定单表
+      - ds_0.cosid_machine
   - !SHARDING
     tables:
       u_task_progress:
