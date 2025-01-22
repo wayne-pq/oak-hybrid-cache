@@ -52,6 +52,20 @@ public class CacheDomainService {
         return getLatestDistributedCache(key, type, null);
     }
 
+    public <T> OakCache<T> get(String key, Class<T> type, Long version) {
+        if (Objects.isNull(version)) {
+            return get(key, type);
+        }
+
+        OakCache<T> cache = getLatestLocalCache(key, type);
+        if (!Objects.isNull(cache)) {
+
+
+            return cache;
+        }
+        return getLatestDistributedCache(key, type, null);
+    }
+
     private <T> OakCache<T> getLatestDistributedCache(String key, Class<T> type, Function<String, T> getOriginalValue) {
         OakCache<T> oakCache = cacheGateway.getDistributedCache(CacheEnum.REDIS).get(key, type);
         //如果分布式缓存为空, 重新获取，为了防止缓存击穿，需要加分布式锁
