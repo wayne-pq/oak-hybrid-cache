@@ -29,6 +29,7 @@ public class UTaskProgressDBAlgorithm implements StandardShardingAlgorithm<Compa
         Comparable<?> value = preciseShardingValue.getValue();
         log.info("String preciseShardingValue {},collection {}", JSON.toJSONString(preciseShardingValue), JSON.toJSONString(collection));
         return "ds_" + ((Number) value).longValue() % collection.size();
+//        return "ds_0";
     }
 
     @Override

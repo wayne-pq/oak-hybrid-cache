@@ -12,9 +12,6 @@ dataSources:
     username: oak
     password: rN2yT2sL1tD2jJ7v
 rules:
-  - !BROADCAST
-    tables:
-      - u_task_detail
   #  单表不允许join查询
   - !SINGLE
     tables:
@@ -23,18 +20,33 @@ rules:
   - !SHARDING
     tables:
       u_task_progress:
-        actualDataNodes: ds_${0..1}.u_task_progress_${2024..2025}_${0..2}
+        actualDataNodes: ds_${0..1}.u_task_progress_${2024..2025}_${0..3}
         databaseStrategy:
           standard:
             shardingColumn: user_id
             shardingAlgorithmName: u-task-progress-db-alg
         tableStrategy:
           complex:
-            shardingColumns: user_id,create_time
+            shardingColumns: id,user_id,create_time
             shardingAlgorithmName: u-task-progress-table-alg
         keyGenerateStrategy:
           column: id
           keyGeneratorName: snowflake
+      u_task_detail:
+        actualDataNodes: ds_${0..1}.u_task_detail_${2024..2025}_${0..3}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: u-task-detail-db-alg
+        tableStrategy:
+          complex:
+            shardingColumns: user_id
+            shardingAlgorithmName: u-task-detail-table-alg
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+    #    bindingTables:
+    #      - u_task_detail, u_task_progress
     shardingAlgorithms:
       u-task-progress-db-alg:
         type: CLASS_BASED
@@ -46,7 +58,18 @@ rules:
         props:
           strategy: complex
           algorithmClassName: oakHybridCacheWithDBData.alg.UTaskProgressTableAlgorithm
-          tableNum: 3
+          tableNum: 4
+      u-task-detail-db-alg:
+        type: CLASS_BASED
+        props:
+          strategy: standard
+          algorithmClassName: oakHybridCacheWithDBData.alg.UTaskDetailDBAlgorithm
+      u-task-detail-table-alg:
+        type: CLASS_BASED
+        props:
+          strategy: complex
+          algorithmClassName: oakHybridCacheWithDBData.alg.UTaskDetailTableAlgorithm
+          tableNum: 4
     keyGenerators:
       snowflake:
         type: SNOWFLAKE
@@ -54,7 +77,7 @@ props:
   sql-show: true
 #开启联邦查询
 sqlFederation:
-  sqlFederationEnabled: true
+  sqlFederationEnabled: false
   allQueryUseSQLFederation: false
   executionPlanCache:
     initialCapacity: 2000

@@ -14,7 +14,7 @@ public interface UTaskDetailDOMapper {
 
     UTaskDetailDO selectByPrimaryKey(Long id);
 
-    int selectByTaskCode(String taskCode);
+    int selectByTaskCode(Long userId);
 
     int updateByPrimaryKeySelective(UTaskDetailDO record);
 

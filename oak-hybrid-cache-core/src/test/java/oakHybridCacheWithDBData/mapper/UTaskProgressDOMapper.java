@@ -25,5 +25,5 @@ public interface UTaskProgressDOMapper {
 
     int selectByUserId(Long userId);
 
-    UTaskProgressDetailDTO selectDetailByUserId(Long userId);
+    List<UTaskProgressDetailDTO> selectDetailByUserId(Long userId);
 }

@@ -44,10 +44,10 @@
         <!--@mbg.generated-->
         insert into u_task_detail (version, task_code, task_name,
                                    create_by, update_by, create_time,
-                                   update_time, is_deleted)
+                                   update_time, is_deleted,user_id)
         values (#{version,jdbcType=INTEGER}, #{taskCode,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR},
                 #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-                #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=TINYINT})
+                #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=TINYINT},#{userId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="oakHybridCacheWithDBData.bean.UTaskDetailDO" useGeneratedKeys="true">
@@ -155,6 +155,6 @@
         select
         count(*)
         from u_task_detail
-        where task_code = #{taskCode,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=BIGINT}
     </select>
 </mapper>

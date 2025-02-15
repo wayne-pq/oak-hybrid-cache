@@ -58,4 +58,6 @@ public class UTaskDetailDO {
      */
     private Byte isDeleted;
 
+    private Long userId;
+
 }

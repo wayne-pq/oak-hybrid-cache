@@ -42,10 +42,12 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
     <insert id="insertBatch" parameterType="java.util.List">
-        INSERT INTO u_task_progress (version, task_code, user_id, task_complete_status, create_by,
+        INSERT INTO u_task_progress (id,version, task_code, user_id, task_complete_status, create_by,
                                      update_by, create_time, update_time, is_deleted) VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.version,jdbcType=INTEGER},
+            (
+            #{item.id,jdbcType=VARCHAR},
+            #{item.version,jdbcType=INTEGER},
              #{item.taskCode,jdbcType=VARCHAR},
              #{item.userId,jdbcType=BIGINT},
              #{item.taskCompleteStatus,jdbcType=TINYINT},
@@ -187,13 +189,17 @@
     </update>
 
     <select id="selectByUserId" resultType="java.lang.Integer">
-        select count(*) from u_task_progress where user_id = 1
+        select count(*) from u_task_progress where user_id = 1000000001
     </select>
 
     <select id="selectDetailByUserId" resultType="oakHybridCacheWithDBData.dto.UTaskProgressDetailDTO">
-        select a.task_code, b.task_name, a.user_id, a.task_complete_status
+        select a.task_code,
+<!--        b.task_name,-->
+        a.user_id, a.task_complete_status
         from u_task_progress a
-                 left join u_task_detail b on a.task_code = b.task_code
-        where user_id = 1
+                 left join u_task_detail b on a.user_id = b.user_id
+<!--        where a.id in (1,2,3);-->
+        where a.user_id = 1000000009 and b.user_id = 1000000009
+<!--        and b.user_id = '1000000009' order by a.user_id limit 10,10-->
     </select>
 </mapper>

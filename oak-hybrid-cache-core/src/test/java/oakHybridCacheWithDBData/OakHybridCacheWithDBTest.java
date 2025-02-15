@@ -1,7 +1,9 @@
 package oakHybridCacheWithDBData;
 
 import cn.xxywithpq.Application;
+import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
+import me.ahoo.cosid.snowflake.SnowflakeId;
 import oakHybridCacheWithDBData.bean.UTaskDetailDO;
 import oakHybridCacheWithDBData.bean.UTaskProgressDO;
 import oakHybridCacheWithDBData.dto.UTaskProgressDetailDTO;
@@ -12,11 +14,16 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -30,11 +37,15 @@ public class OakHybridCacheWithDBTest {
     Logger log = LoggerFactory.getLogger(OakHybridCacheWithDBTest.class);
 
     private final String TASK_CODE = "taskDemo";
-    private final Long USER_ID = 1L;
+    private final Long USER_ID = 1000000009L;
     @Resource
     private UTaskProgressDOMapper taskProgressDOMapper;
     @Resource
     private UTaskDetailDOMapper taskDetailDOMapper;
+    @Qualifier("__share__SnowflakeId")
+    @Lazy
+    @Autowired
+    private SnowflakeId snowflakeId;
 
     private void checkTaskProgressDataExistTest() {
         int count = taskProgressDOMapper.selectByUserId(USER_ID);
@@ -45,9 +56,10 @@ public class OakHybridCacheWithDBTest {
 
         ArrayList<UTaskProgressDO> uTaskProgressDOS = new ArrayList<>();
 
-        long startUserId = USER_ID;
+        Long startUserId = 1000000000L;
         for (int i = 0; i < 100; i++) {
             UTaskProgressDO uTaskProgressDO = new UTaskProgressDO();
+            uTaskProgressDO.setId(snowflakeId.generate() + startUserId.toString().substring(startUserId.toString().length() - 3));
             uTaskProgressDO.setTaskCode(TASK_CODE);
             uTaskProgressDO.setUserId(startUserId++);
             uTaskProgressDO.setCreateTime(new Date());
@@ -63,7 +75,7 @@ public class OakHybridCacheWithDBTest {
     }
 
     private void checkTaskDetailDataExistTest() {
-        int count = taskDetailDOMapper.selectByTaskCode(TASK_CODE);
+        int count = taskDetailDOMapper.selectByTaskCode(1000000009L);
         if (count > 0) {
             log.warn("数据已经存在，无需初始化数据");
             return;
@@ -76,6 +88,7 @@ public class OakHybridCacheWithDBTest {
         uTaskDetailDO.setVersion(0);
         uTaskDetailDO.setUpdateTime(new Date());
         uTaskDetailDO.setIsDeleted((byte) 0);
+        uTaskDetailDO.setUserId(1000000009L);
 
         taskDetailDOMapper.insert(uTaskDetailDO);
     }
@@ -85,9 +98,18 @@ public class OakHybridCacheWithDBTest {
         checkTaskProgressDataExistTest();
         checkTaskDetailDataExistTest();
 
-        UTaskProgressDetailDTO uTaskProgressDetailDTO = taskProgressDOMapper.selectDetailByUserId(USER_ID);
-        log.info("uTaskProgressDetailDTO:{}", uTaskProgressDetailDTO);
+        List<UTaskProgressDetailDTO> uTaskProgressDetailDTO = taskProgressDOMapper.selectDetailByUserId(USER_ID);
+        log.info("uTaskProgressDetailDTO:{}", JSON.toJSONString(uTaskProgressDetailDTO));
         Assertions.assertNotNull(uTaskProgressDetailDTO);
+    }
+
+    @Test
+    public void hashTest() {
+        BigInteger n = BigInteger.valueOf(3);
+        BigInteger num = new BigInteger("6804093648167239700001");
+
+        System.out.println((n.subtract(BigInteger.ONE)).and(num));
+
     }
 
 

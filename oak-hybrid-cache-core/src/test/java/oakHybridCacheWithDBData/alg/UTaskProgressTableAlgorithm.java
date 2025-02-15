@@ -68,7 +68,7 @@ public class UTaskProgressTableAlgorithm implements ComplexKeysShardingAlgorithm
         HashSet<String> availableTarget = new HashSet<>();
         if (!CollectionUtils.isEmpty(userIdsSet)) {
             for (Long userId : userIdsSet) {
-                int index = (int) (userId % tableNum);
+                int index = (int) ((tableNum - 1) & (userId % 1000));
                 if (CollectionUtils.isEmpty(yearRangeSet)) {
                     String patternString = "u_task_progress_.*_" + index;
                     Pattern pattern = Pattern.compile(patternString);
