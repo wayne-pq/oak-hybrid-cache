@@ -26,6 +26,7 @@ val caffeine_version = "3.1.8"
 val fastjson2_version = "2.0.44"
 val redisson_version = "3.31.0"
 val cosidVersion = "2.9.4"
+val rocketmq_client_version = "5.0.7"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -48,7 +49,7 @@ dependencies {
     implementation ("cn.hutool:hutool-all:5.8.16")
     implementation("me.ahoo.cosid:cosid-jdbc:${cosidVersion}")
     implementation("me.ahoo.cosid:cosid-spring-boot-starter:${cosidVersion}")
-
+    implementation("org.apache.rocketmq:rocketmq-client-java:${rocketmq_client_version}")
     }
 
 tasks.test {

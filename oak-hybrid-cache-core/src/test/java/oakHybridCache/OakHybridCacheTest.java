@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @author qian.pan on 2024/1/17.
@@ -38,6 +41,8 @@ public class OakHybridCacheTest {
      */
     @Test
     public void basicTest() throws InterruptedException {
+        ArrayList<Object> objects = new ArrayList<>();
+        objects.clear();
 //        CountDownLatch latch = new CountDownLatch(1);
         String key = "test";
         String value = "test";
@@ -106,6 +111,12 @@ public class OakHybridCacheTest {
         Thread.sleep(redisProperties.getExpireAfterWrite());
         stringOakCache = oakHybridCacheService.get(key, String.class);
         Assertions.assertNull(stringOakCache.getItem());
+
+
+        List<Character> str = new ArrayList();
+
+
+
     }
 
 

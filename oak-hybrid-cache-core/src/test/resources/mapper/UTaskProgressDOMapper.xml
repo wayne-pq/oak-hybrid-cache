@@ -199,7 +199,7 @@
         from u_task_progress a
                  left join u_task_detail b on a.user_id = b.user_id
 <!--        where a.id in (1,2,3);-->
-        where a.user_id = 1000000009 and b.user_id = 1000000009
+        where a.user_id = 1000000009 and b.user_id = 1000000009 limit 10,10
 <!--        and b.user_id = '1000000009' order by a.user_id limit 10,10-->
     </select>
 </mapper>
