@@ -112,5 +112,11 @@ public class OakHybridCacheWithDBTest {
 
     }
 
+    @Test
+    public void deleteTest() {
+        int num = taskProgressDOMapper.deleteByCreateTime();
+        log.info("delete num:{}", num);
+    }
+
 
 }

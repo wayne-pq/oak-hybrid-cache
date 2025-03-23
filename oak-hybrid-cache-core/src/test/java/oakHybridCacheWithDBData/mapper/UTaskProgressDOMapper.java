@@ -26,4 +26,6 @@ public interface UTaskProgressDOMapper {
     int selectByUserId(Long userId);
 
     List<UTaskProgressDetailDTO> selectDetailByUserId(Long userId);
+
+    int deleteByCreateTime();
 }

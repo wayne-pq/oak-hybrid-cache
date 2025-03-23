@@ -92,7 +92,7 @@ public class UTaskProgressTableAlgorithm implements ComplexKeysShardingAlgorithm
                 String prefix = "u_task_progress_" + year;
                 for (String availableTargetName : availableTargetNames) {
                     if (availableTargetName.startsWith(prefix)) {
-                        availableTarget.add(prefix);
+                        availableTarget.add(availableTargetName);
                     }
                 }
             }
