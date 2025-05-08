@@ -50,6 +50,8 @@ dependencies {
     implementation("me.ahoo.cosid:cosid-jdbc:${cosidVersion}")
     implementation("me.ahoo.cosid:cosid-spring-boot-starter:${cosidVersion}")
     implementation("org.apache.rocketmq:rocketmq-client-java:${rocketmq_client_version}")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation ("org.springframework.boot:spring-boot-starter-web")
     }
 
 tasks.test {
