@@ -3,16 +3,11 @@
  */
 package cn.xxywithpq.domian.cache.schedule;
 
-import com.schengle.recharge.indent.common.enums.ScheduleBusinessEnum;
-import com.schengle.recharge.indent.entity.dto.ScheduleParamDto;
-import com.schengle.recharge.indent.entity.dto.ScheduleResultDto;
 
-/**
- * @author CS
- * @title: RechargeStrategy
- * @projectName recharge-indent
- * @date 2023/1/10
- */
+import cn.xxywithpq.domian.cache.enums.ScheduleBusinessEnum;
+import cn.xxywithpq.domian.cache.schedule.dto.ScheduleParamDto;
+import cn.xxywithpq.domian.cache.schedule.dto.ScheduleResultDto;
+
 public interface ScheduleHandlerStrategy {
 
 	/**

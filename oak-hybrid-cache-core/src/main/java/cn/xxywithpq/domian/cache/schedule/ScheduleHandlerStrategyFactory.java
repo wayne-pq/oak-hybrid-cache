@@ -1,6 +1,6 @@
 package cn.xxywithpq.domian.cache.schedule;
 
-import com.schengle.recharge.indent.common.enums.ScheduleBusinessEnum;
+import cn.xxywithpq.domian.cache.enums.ScheduleBusinessEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
